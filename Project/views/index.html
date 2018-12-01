@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Extraction PORJECT</title>
+    <style>
+        #wai{ border:2px solid #900; padding:10px; overflow:hidden}
+        .divleft{ float:left; width:15%;height: auto; border:1px solid black}
+        .divright{ width:75%;height: auto; border:1px solid #FFF}
+    </style>
+</head>
+<body>
+<div>
+    <h1>
+        INF551 Project
+    </h1>
+    <h2>
+        Metadata Extraction and Data Filter
+    </h2>
+</div>
+<div id="wai">
+    <fieldset class="divleft">
+            <legend>Faceted search</legend>
+            <tr>
+                <form action="/category" method="post">
+                <h4>Category</h4>
+                        <select name="category">
+                            % for k, v in cate_selected.items():
+                            <option value="{{k}}" {{v[0]}}>{{k}} {{v[1]}}</option>
+                            %end
+
+                        </select>
+                    <button type="submit">search</button>
+                </form>
+            </tr>
+            <form action="/size" method="post">
+                <br>
+                    <h4>Size</h4>
+                    % if size_selected["Big_Size" ] == True:
+                        <br>
+                            <td>Big<input type="radio" name ="Size" checked="checked" value="Big_Size"  /></td>
+                            {{Big_Size_num}}
+                        </br>
+                        <br>
+                            <td>Medium<input type="radio" name ="Size" value="Medium_Size" /></td>
+                            {{Medium_Size_num}}
+                        </br>
+                        <br>
+                            <td>Small<input type="radio" name ="Size" value="Small_Size" /></td>
+                            {{Small_Size_num}}
+                        </br>
+                    % elif (size_selected["Big_Size" ] == False and size_selected["Medium_Size" ] == False and size_selected["Small_Size" ] == False):
+                        <br>
+                            <td>Big<input type="radio" name ="Size" value="Big_Size"  /></td>
+                            {{Big_Size_num}}
+                        </br>
+                        <br>
+                            <td>Medium<input type="radio" name ="Size" value="Medium_Size" /></td>
+                            {{Medium_Size_num}}
+                        </br>
+                        <br>
+                            <td>Small<input type="radio" name ="Size" value="Small_Size" /></td>
+                            {{Small_Size_num}}
+                        </br>
+                    % elif size_selected["Medium_Size" ] == True:
+                        <br>
+                            <td>Big<input type="radio" name ="Size" value="Big_Size"  /></td>
+                            {{Big_Size_num}}
+                        </br>
+                        <br>
+                            <td>Medium<input type="radio" name ="Size" checked="checked" value="Medium_Size" /></td>
+                            {{Medium_Size_num}}
+                        </br>
+                        <br>
+                            <td>Small<input type="radio" name ="Size" value="Small_Size" /></td>
+                            {{Small_Size_num}}
+                        </br>
+                    % elif size_selected["Small_Size" ] == True:
+                        <br>
+                            <td>Big<input type="radio" name ="Size" value="Big_Size"  /></td>
+                            {{Big_Size_num}}
+                        </br>
+                        <br>
+                            <td>Medium<input type="radio" name ="Size"value="Medium_Size" /></td>
+                            {{Medium_Size_num}}
+                        </br>
+                        <br>
+                            <td>Small<input type="radio" name ="Size" checked="checked" value="Small_Size" /></td>
+                            {{Small_Size_num}}
+                        </br>
+                    % end
+                </tr>
+                <br><button type="submit">search</button></br>
+            </form>
+            <tr>
+                <h4>
+                    Number of Documents
+                </h4>
+                <td>
+                    {{nums}}
+                </td>
+
+
+            </tr>
+        </fieldset>
+    <fieldset class="divright">
+        <legend>Keyword Filter&Table</legend>
+            <fieldset>
+                <legend>Keyword search</legend>
+                <form action="/keyword" method="post">
+                    <input  type="text" name="keywords"/>
+                    <input type="submit" value="Search"/>
+                </form>
+            </fieldset>
+            <fieldset>
+            <legend>Metadata From</legend>
+                <table align="center" border="3" bordercolor="#4A766E" width="100%" height="80%">
+                    <thead>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Format</th>
+                        <th>Download</th>
+                        <th>Mode</th>
+                        <th>Size</th>
+                    </thead>
+                    <tbody align="center">
+                            % for item in data:
+                            <tr>
+                                %for k, v in item.items():
+                                    % if k == "url":
+                                <td><a href="{{v}}" >Download</a></td>
+                                    % else:
+                                    <td>{{v}}</td>
+                                    %end
+                                %end
+                            </tr>
+                            %end
+                    </tbody>
+                </table>
+            </fieldset>
+        </fieldset>
+</div>
+
+</body>
+</html>
